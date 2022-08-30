@@ -23,9 +23,14 @@ public class ManageUserView {
          * 4- quay lai
          * 5 thoat
          */
-        Constants.cls();
+        Boolean isComeBank = false;
+
         while (true) {
-            Boolean isComeBank = false;
+            Constants.cls();
+            if (Constants.isQuit)
+                break;
+            if (isComeBank)
+                break;
             menuManageUserView();
             System.out.println("hay nhap vao day");
             int key = Integer.parseInt(sc.nextLine());
@@ -50,9 +55,6 @@ public class ManageUserView {
                 default:
                     break;
             }
-            if (isComeBank == true)
-                break;
-
         }
 
     }
@@ -64,7 +66,7 @@ public class ManageUserView {
          */
     }
 
-    private void addUser() {
+    public void addUser() {
         /*
          * nhap tu ban phim cac thong tin
          */
@@ -89,16 +91,13 @@ public class ManageUserView {
         /*
          * thong bao them thanh cong
          */
-        if (userController.addUser(user)) {
+        if (userController.addUser(user))
             System.out.println("ban da them thanh cong");
-        } else {
+        else
             System.out.println("them khong thanh cong ");
-            //can them thong bao loi gi
+        // can them thong bao loi gi
 
-        }
-        System.out.println("ban co muon tiep tuc Y/N");
-        String key = sc.nextLine();
-        if (key.toUpperCase().equals("Y"))
+        if (Constants.continueYN())
             addUser();
 
     }

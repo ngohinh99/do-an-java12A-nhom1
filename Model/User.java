@@ -1,6 +1,8 @@
 package Model;
 
-public class User {
+import Abstract.AId;
+
+public class User extends AId {
     private String userName;
     private String password;
     private String email;
@@ -28,23 +30,22 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-    public boolean checkInformation(Object obj1, Object obj2){
+    public boolean checkInformation(Object obj1, String obj2){
         boolean isResult = false;
-        int key = (Integer) obj2;
-        switch (key) {
-            case 0:
+        switch (obj2) {
+            case "username":
                 if (this.userName.equals(obj1))
                     isResult = true;
                 break;
-            case 1:
+            case "password":
                 if (this.password.equals(obj1))
                     isResult = true;
                 break;
-            case 2:
+            case "email":
                 if (this.email.equals(obj1))
                     isResult = true;
                 break;
-            case 3:
+            case"phoneNumber":
                 if (this.password.equals(obj1))
                     isResult = true;
                 break;
@@ -54,5 +55,7 @@ public class User {
         return isResult;
 
     }
+
+
 
 }

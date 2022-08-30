@@ -1,12 +1,11 @@
 package Iterface;
 
-import org.json.JSONObject;
 
 public interface IUsers {
-    boolean checkInUses(Object obj1, Object obj2);
+    boolean checkInUses(Object obj1, String obj2);
     boolean addUser(Object obj);
-    boolean checkInformation(Object obj1, Object obj2);
+    boolean checkInformation(Object obj1, String obj2);
     String checkIsAdmin(Object obj);
-    boolean update(Object obj1,Object obj2 );
+    boolean update(Object obj1,String obj2 );
 
 }

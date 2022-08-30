@@ -9,7 +9,9 @@ public class Regex {
      * 2 - email
      * 3- phone
      */
-    public static boolean checkRegex(String obj, int key){
+    public static boolean checkRegex(String obj, String obj2){
+    
+        String key = (String) obj2;
         String USERNAME = "Adminstrator";
         String PASSWPRD = "^(?=.*[A-Z])(?=.*[@#$%^&+=]).{7,15}$";
         String EMAIL = "^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$";
@@ -17,16 +19,16 @@ public class Regex {
         boolean result = false;
 
         switch (key) {
-            case 0:
+            case "username":
             result = obj.equals(USERNAME)? false: true;
                 break;
-            case 1:
+            case "password":
              result = Pattern.matches(PASSWPRD, obj);
                 break;
-            case 2:
+            case "email":
             result = Pattern.matches(EMAIL, obj);
                 break;
-            case 3:
+            case "phoneNumber":
             result = Pattern.matches(PHONENUMBER, obj);
                 break;
         
