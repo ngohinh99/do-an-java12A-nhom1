@@ -6,34 +6,32 @@ import Iterface.IHome;
 import Model.Floor;
 import Model.Home;
 import Model.Room;
-import Service.HomeService;
+import Repository.HomeRepository;
 
 public class HomeController implements IHome<Home> {
-    private HomeService homeService;
+    private HomeRepository homeRepository;
     private FloorController floorController;
     private RoomController roomController;
 
     public HomeController() {
-        this.homeService = new HomeService();
+        this.homeRepository = new HomeRepository();
         this.floorController = new FloorController();
         this.roomController = new RoomController();
     }
 
     @Override
     public String toString() {
-        return homeService.toString();
+        return homeRepository.toString();
     }
-
-
 
     @Override
     public String printInfo(Object obj) {
-            return homeService.printInfo(obj) ;
+        return homeRepository.printInfo(obj);
     }
 
     @Override
     public boolean add(Home obj) {
-        return homeService.add(obj);
+        return homeRepository.add(obj);
     }
 
     @Override
@@ -43,17 +41,18 @@ public class HomeController implements IHome<Home> {
 
     @Override
     public Home select(String obj) {
-        return homeService.select(obj);
+        return homeRepository.select(obj);
     }
 
     @Override
     public boolean delete(String obj) {
-        homeService.delete(obj);
+        homeRepository.delete(obj);
         floorController.delete(obj);
         roomController.delete(obj);
         return true;
     }
-    public boolean addHome(JSONObject jsonObject){
+
+    public boolean addHome(JSONObject jsonObject) {
         boolean result = false;
         JSONObject home = (JSONObject) jsonObject;
         String idHome = home.getString("idHome");
@@ -61,10 +60,10 @@ public class HomeController implements IHome<Home> {
         int floorNumber = home.getInt("floorNumber");
         int roomNumber = home.getInt("roomNumber");
 
-        Home home1 = new Home(idHome, placeOfOrigin,floorNumber);
+        Home home1 = new Home(idHome, placeOfOrigin, floorNumber);
         if (add(home1)) {
             for (int i = 1; i <= floorNumber; i++) {
-                Floor floor = new Floor(home1,roomNumber);
+                Floor floor = new Floor(home1, roomNumber);
                 floor.setId(String.valueOf(i));// id
                 floor.setFloorWhich(i);// tang mays
                 floorController.add(floor);
@@ -73,6 +72,15 @@ public class HomeController implements IHome<Home> {
                     room.setId(String.valueOf(y));
                     room.setRoomWhich(String.valueOf(y));
                     roomController.add(room);
+                    while (true) {
+                        String idRoom = String.valueOf((int) (10000 * Math.random()));
+                        if (roomController.searchInRooms(idRoom, " ")) {
+                        } else {
+                            room.setIdRoom(idRoom);
+                            break;
+                        }
+
+                    }
                     result = true;
                 }
             }
@@ -82,10 +90,8 @@ public class HomeController implements IHome<Home> {
         return result;
     }
 
-
-
     @Override
     public boolean update(Home obj, String obj2) {
-        return homeService.update(obj, obj2);
+        return homeRepository.update(obj, obj2);
     }
 }

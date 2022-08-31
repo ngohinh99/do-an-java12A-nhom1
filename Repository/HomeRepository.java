@@ -3,7 +3,7 @@ package Repository;
 
 import java.util.Set;
 
-import Data.ListData;
+import Data.Data;
 import Iterface.IHome;
 import Model.Home;
 
@@ -12,7 +12,7 @@ public class HomeRepository implements IHome<Home> {
     private FloorRepository floorRepository;
 
     public HomeRepository() {
-        this.homes = ListData.homes;
+        this.homes = Data.homes;
         this.floorRepository = new FloorRepository();
     }
 

@@ -3,43 +3,43 @@ package Controller;
 import Iterface.IHome;
 import Model.Floor;
 import Model.Home;
-import Service.FloorService;
+import Repository.FloorRepository;
 
 public class FloorController implements IHome<Floor> {
-    private FloorService floorService;
+    private FloorRepository floorRepository;
 
     public FloorController() {
-        this.floorService = new FloorService();
+        this.floorRepository = new FloorRepository();
     }
 
 
 
     @Override
     public String printInfo(Object obj) {
-        return floorService.printInfo(obj);
+        return floorRepository.printInfo(obj);
     }
 
     @Override
     public String printList(Object obj) {
         if (obj instanceof Home)
-            return floorService.printList(obj);
+            return floorRepository.printList(obj);
         else
             return "";
     }
 
     @Override
     public boolean add(Floor obj) {
-        return floorService.add(obj);
+        return floorRepository.add(obj);
     }
 
     @Override
     public Floor select(String obj) {
-        return floorService.select(obj);
+        return floorRepository.select(obj);
     }
 
     @Override
     public boolean delete(String obj) {
-        return floorService.delete(obj);
+        return floorRepository.delete(obj);
     }
 
 

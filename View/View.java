@@ -3,6 +3,7 @@ package View;
 import java.util.Scanner;
 
 import Controller.UserController;
+import Model.User;
 import Util.Constants;
 
 /**
@@ -13,13 +14,11 @@ public class View {
     private UserController userController;
     private AdminstratorView adminstratorView;
     private UserView userView;
-    private ManageUserView manageUserView;
 
     public View() {
         this.userController = new UserController();
         this.adminstratorView = new AdminstratorView();
         this.userView = new UserView();
-        this.manageUserView = new ManageUserView();
     }
 
     public void display() {
@@ -41,7 +40,7 @@ public class View {
                     LogIn();
                     break;
                 case 2:// dang ki == tao moi mot tai khoan
-                    manageUserView.addUser();
+                    adminstratorView.addUser();
                     break;
                 case 3:// thoat
                     Constants.isQuit = true;
@@ -77,8 +76,8 @@ public class View {
             System.out.println("nhap username: ");
             String username = sc.nextLine();
 
-            String text = userController.checkIsAdmin(username);
-            if (text.equals("")) {// khong ton tai
+            User user = userController.select(username);
+            if (user == null) {// khong ton tai
                 System.out.println("khong ton tai moi nhap lai");
                 if (Constants.continueYN())
                     LogIn();
@@ -90,15 +89,16 @@ public class View {
                     System.out.println("nhap password: ");
                     String password = sc.nextLine();
 
-                    if (text.equals(password)) {
+                    if (user.getPassword().equals(password)) {
                         if (username.equals("adminstrator"))
                             try {
-                                adminstratorView.display();
+                                adminstratorView.displayAdminstratorView();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         else
                             try {
+                                Constants.userLogIn = user;
                                 userView.display();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -157,7 +157,7 @@ public class View {
             System.out.println("lay lai pass");
             System.out.println("nhap username");
             String username = sc.nextLine();
-            if (userController.checkInUses(username, "username")) {
+            if (userController.searchInUser(username, "username")) {
                 System.out.println("nhap email/phoneNumber da dang ky");
                 String emailOrPhoneNumber = sc.nextLine();
 

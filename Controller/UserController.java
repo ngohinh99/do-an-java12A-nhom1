@@ -2,7 +2,7 @@ package Controller;
 
 import Iterface.IUsers;
 import Model.User;
-import Service.UserService;
+import Repository.UserRepository;
 import Util.Regex;
 
 import org.json.JSONObject;
@@ -10,12 +10,13 @@ import org.json.JSONObject;
 /**
  * LogInController
  */
-public class UserController implements IUsers {
-    private UserService userService;
+public class UserController implements IUsers<User> {
+    private UserRepository userRepository;
 
     public UserController() {
-        this.userService = new UserService();
+        this.userRepository = new UserRepository();
     }
+
     @Override
     public boolean addUser(Object obj) {
         /* lay thong tin tu JSON */
@@ -34,31 +35,32 @@ public class UserController implements IUsers {
          */
         int key = 0;// kiem tra xem dieu kien co dung, dung thi cong mot
         // kiem tra ten co dung cau truc va da ton tai hay chua
-        if (Regex.checkRegex(userName, "username") == true && userService.checkInUses(userName, "username") == false)
+        if (Regex.checkRegex(userName, "username") && userRepository.searchInUser(userName, "username") == false)
             key++;
         // passs
         if (Regex.checkRegex(password, "password"))
             key++;
 
         // email
-        if (Regex.checkRegex(email, "email") == true && userService.checkInUses(email, "email") == false)
+        if (Regex.checkRegex(email, "email") && userRepository.searchInUser(email, "email") == false)
             key++;
         // phone
-        if (Regex.checkRegex(phoneNumber, "phoneNumber") == true && userService.checkInUses(phoneNumber, "phoneNumber") == false)
+        if (Regex.checkRegex(phoneNumber, "phoneNumber")
+                && userRepository.searchInUser(phoneNumber, "phoneNumber") == false)
             key++;
         // neu cac dieu kien dung thi key ==4
         if (key == 4) {
             isResult = true;
-            userService.addUser(new User(userName, password, email, phoneNumber));
+            userRepository.addUser(new User(userName, password, email, phoneNumber));
         }
         return isResult;
     }
 
     @Override
-    public boolean checkInUses(Object obj1, String obj2) {
+    public boolean searchInUser(String obj1, String obj2) {
 
-        //viet vao day
-        return userService.checkInUses(obj1, obj2);
+        // viet vao day
+        return userRepository.searchInUser(obj1, obj2);
     }
 
     @Override
@@ -67,40 +69,38 @@ public class UserController implements IUsers {
         boolean isResult = false;
         switch (obj2) {
             case "username":
-                if(Regex.checkRegex(obj, "username"))
-                    isResult= userService.checkInformation(obj, "username");
-                
+                if (Regex.checkRegex(obj, "username"))
+                    isResult = userRepository.checkInformation(obj, "username");
+
                 break;
-                case "password":
-                if(Regex.checkRegex(obj, "password"))
-                isResult= userService.checkInformation(obj, "password");
+            case "password":
+                if (Regex.checkRegex(obj, "password"))
+                    isResult = userRepository.checkInformation(obj, "password");
                 break;
-                case "email":
-                if(Regex.checkRegex(obj, "email"))
-                isResult= userService.checkInformation(obj, "email");
+            case "email":
+                if (Regex.checkRegex(obj, "email"))
+                    isResult = userRepository.checkInformation(obj, "email");
                 break;
-                case "phoneNumber":
-                if(Regex.checkRegex(obj, "phoneNumber"))
-                isResult= userService.checkInformation(obj, "phoneNumber");
+            case "phoneNumber":
+                if (Regex.checkRegex(obj, "phoneNumber"))
+                    isResult = userRepository.checkInformation(obj, "phoneNumber");
                 break;
-        
+
             default:
                 break;
         }
         return isResult;
     }
 
-    @Override
-    public String checkIsAdmin(Object obj) {
-        return userService.checkIsAdmin(obj);
-    }
 
     @Override
     public boolean update(Object obj1, String obj2) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-
+    @Override
+    public User select(String obj) {
+        return userRepository.select(obj);
+    }
 
 }

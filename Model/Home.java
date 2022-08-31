@@ -6,6 +6,8 @@ public  class Home extends AId {
     private String idHome;
     private String placeOfOrigin;// dia chi
     private int floorNumber;//so tang
+    private Floor[] floors;
+    private int floorWhich = 0;
     public String getPlaceOfOrigin() {
         return placeOfOrigin;
     }
@@ -17,7 +19,6 @@ public  class Home extends AId {
         this.placeOfOrigin = placeOfOrigin;
         this.id = "home"+ this.idHome;
         this.floorNumber = floorNumber;
-
     }
 
 
@@ -27,9 +28,10 @@ public  class Home extends AId {
     public int getFloorNumber() {
         return floorNumber;
     }
-
     @Override
     public String toString() {
         return "id "+this.id+ ", dia chi: " + placeOfOrigin+ "\n";
     }
+
+    
 }

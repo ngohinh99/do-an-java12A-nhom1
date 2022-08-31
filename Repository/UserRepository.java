@@ -1,19 +1,19 @@
 package Repository;
 
 import java.util.List;
-import Data.ListData;
+import Data.Data;
 import Model.User;
 import Util.Constants;
 import Iterface.IUsers;
 
-public class UserRepository implements IUsers {
+public class UserRepository implements IUsers<User> {
     private User admin = Constants.adminstrator;
     private User user;
     private List<User> users;
 
     public UserRepository() {
         this.user = null;
-        this.users = ListData.users;
+        this.users = Data.users;
     }
 
     /*
@@ -21,15 +21,6 @@ public class UserRepository implements IUsers {
      * 1- la admin nguoi quan ly
      * 2 - user nguoi dungf
      */
-    public String checkIsAdmin(Object obj) {
-        String result = "";
-        if (admin.getUserName().equals(obj)) {
-            result = admin.getPassword();
-        } else if (checkInUses(obj, "username")) {
-            result = user.getUserName();
-        }
-        return result;
-    }
 
     @Override
     public boolean addUser(Object obj) {
@@ -43,7 +34,7 @@ public class UserRepository implements IUsers {
     }
 
     @Override
-    public boolean checkInUses(Object obj1, String obj2) {
+    public boolean searchInUser(String obj1, String obj2) {
         /*
          * 0 - username
          * 1- pass
@@ -51,15 +42,16 @@ public class UserRepository implements IUsers {
          * 3- phone
          */
         boolean isResult = false;
-        if (admin.equals(obj1)) {
+        if (admin.getUserName().equals(obj1)) {
             return isResult;
         } else {
             switch (obj2) {
                 case "username":
                     for (User us : users) {
-                        isResult = us.getUserName().equals(obj1);
-                        if (isResult == true)
+                        if (us.getUserName().equals(obj1)){
                             user = us;
+                            isResult = true;
+                        }      
                     }
                     break;
                 case "password":
@@ -67,14 +59,12 @@ public class UserRepository implements IUsers {
                     break;
                 case "email":
                     for (User us : users) {
-                        isResult = us.getEmail().equals(obj1);
-                    
+                         if(us.getEmail().equals(obj1))isResult = true;
                     }
                     break;
                 case "phoneNumber":
                     for (User us : users) {
-                        isResult = us.getPhoneNumber().equals(obj1);
-                       
+                        if(us.getPhoneNumber().equals(obj1))isResult = true;
                     }
                     break;
 
@@ -93,9 +83,18 @@ public class UserRepository implements IUsers {
 
     @Override
     public boolean update(Object obj1, String obj2) {
-        // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
+    public User select(String obj) {
+        User result = null;
+        if (admin.getUserName().equals(obj)) {
+            result = admin;
+        } else if (searchInUser(obj, "username")) {
+            result = user;
+        }
+        return result;
+    }
 
 }

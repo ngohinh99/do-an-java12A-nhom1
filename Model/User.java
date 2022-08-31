@@ -7,7 +7,14 @@ public class User extends AId {
     private String password;
     private String email;
     private String phoneNumber;
+    private People people;
     
+    @Override
+    public String toString() {
+        return "User [email=" + email + ", password=" + password + ", phoneNumber=" + phoneNumber + ", userName="
+                + userName + "]";
+    }
+
     public User(String userName, String password, String email, String phoneNumber) {
         this.userName = userName;
         this.password = password;
@@ -54,6 +61,10 @@ public class User extends AId {
         }
         return isResult;
 
+    }
+
+    public People getPeople() {
+        return people;
     }
 
 

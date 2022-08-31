@@ -4,46 +4,52 @@ package Controller;
 
 import Iterface.IHome;
 import Model.Room;
-import Service.RoomService;
+import Repository.RoomRepository;
 
 public class RoomController implements IHome<Room> {
-    private RoomService roomService;
+    private RoomRepository roomRepository;
 
     public RoomController() {
-        this.roomService = new RoomService();
+        this.roomRepository = new RoomRepository();
     }
 
     @Override
     public String printInfo(Object obj) {
-        return roomService.printInfo(obj);
+        return roomRepository.printInfo(obj);
     }
 
     @Override
     public boolean add(Room obj) {
-            return roomService.add(obj);
+            return roomRepository.add(obj);
     }
 
     @Override
     public String printList(Object obj) {
-        return roomService.printList(obj);
+        return roomRepository.printList(obj);
     }
 
     @Override
     public Room select(String obj) {
-        return roomService.select(obj);
+        return roomRepository.select(obj);
     }
 
     @Override
     public boolean delete(String obj) {
-        return roomService.delete(obj);
+        return roomRepository.delete(obj);
     }
 
 
 
     @Override
     public boolean update(Room obj, String obj2) {
-        // TODO Auto-generated method stub
         return false;
+    }
+
+    public String printEmptyRoom() {
+        return roomRepository.printEmptyRoom();
+    }
+    public boolean searchInRooms(String obj1, String obj2) {
+        return roomRepository.searchInUser(obj1, obj2);
     }
 
 }

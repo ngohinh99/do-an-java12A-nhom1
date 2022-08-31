@@ -1,10 +1,8 @@
 
 import java.util.List;
 
-import Data.ListData;
+import Data.Data;
 import Repository.RoomRepository;
-import View.ManageHomeView;
-import View.ManageUserView;
 import View.View;
 
 public class Main {
@@ -13,7 +11,7 @@ public class Main {
 
         View view = new View();
 
-        ListData.addData();
+        Data.addData();
         try {
         view.display();
         } catch (Exception e) {
